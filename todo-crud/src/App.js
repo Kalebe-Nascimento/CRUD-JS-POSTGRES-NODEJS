@@ -1,55 +1,61 @@
-import logo from './logo.svg';
-import {AiOutlineEdit,AiOutlineDelete} from 'react-icons/ai'
-import './App.css';
-import { useEffect, useState } from 'react';
+import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import "./App.css";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
-
-const arrayTodos = [
-  { name: "Fazer Diagramas POO", status: true },
-  { name: "Jogar com os amigos", status: false },
-];
-
 const Todos = ({ todos }) => {
+  console.log(todos); // Verifique se o todos está vindo corretamente
   return (
     <div className="todos">
       {todos.map((todo, index) => {
         return (
           <div className="todo" key={index}>
             <p>{todo.name}</p>
-            <button className="checkbox" style={{ backgroundColor: todo.status ? "blue" : "white" }}></button>
+            <button
+              className="checkbox"
+              style={{
+                backgroundColor: todo.status ? "blue" : "white",
+              }}
+            ></button>
             <button>
-              <AiOutlineEdit size={20} color={"#64697b"}></AiOutlineEdit>
+              <AiOutlineEdit size={20} color={"#64697b"} />
             </button>
             <button>
-              <AiOutlineDelete size={20} color={"#64697b"}></AiOutlineDelete>
+              <AiOutlineDelete size={20} color={"#64697b"} />
             </button>
           </div>
         );
       })}
     </div>
   );
-}; 
+};
 
 function App() {
+  const [todos, setTodos] = useState([]);
+
   async function getTodos() {
-    const response = await axios.get("http://localhost:3030/todos");
-    console.log(response);
+    try {
+      const response = await axios.get("http://localhost:3030/todos");
+      console.log(response.data); // Adicionando log para verificar o formato da resposta
+      setTodos(response.data); 
+    } catch (error) {
+      console.error("Erro ao buscar tarefas:", error);
+    }
   }
 
-  const [todos,setTodos] = useState([]);
   useEffect(() => {
     getTodos();
-  });
+  }, []); 
+
   return (
     <div className="App">
       <header className="container">
         <div className="header">
           <h1>Lista de Tarefas!</h1>
         </div>
-        <Todos todos={arrayTodos}/>
-        <input className="inputName"></input>
-        <button className='newTaskButton'>+ Nova Tarefa</button>
+        <Todos todos={todos} />
+        <input className="inputName" placeholder="Nova tarefa..." />
+        <button className="newTaskButton">+ Nova Tarefa</button>
       </header>
     </div>
   );

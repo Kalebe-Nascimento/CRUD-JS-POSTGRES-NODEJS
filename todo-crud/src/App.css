@@ -71,6 +71,7 @@ button {
 }
 .inputName {
   margin-top: 10px;
+  border-radius: 10px;
   text-align: center;
   border: none;
   height: 50px;

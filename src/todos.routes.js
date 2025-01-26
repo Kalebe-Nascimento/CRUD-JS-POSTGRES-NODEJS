@@ -8,6 +8,17 @@ const {PrismaClient} = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+const router = express.Router();
+
+router.get("/todos", (req, res) => {
+    res.json([
+        { id: 1, tarefa: "Estudar Node.js", status: "pendente" },
+        { id: 2, tarefa: "Criar projeto CRUD", status: "concluído" }
+    ]);
+});
+
+module.exports = router;
+
 //C
 todosRoutes.post("/todos",async (request,response) => {
     const {name} =  request.body;
