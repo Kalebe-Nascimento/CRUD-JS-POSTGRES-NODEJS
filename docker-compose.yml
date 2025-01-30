@@ -12,10 +12,53 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: database
     volumes:
-      - pgdata:/var/lib/postgresql/data # Local padrão do PostgreSQL no contêiner
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - todo-list
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    environment:
+      DATABASE_URL: "postgresql://admin:admin@database:5432/database"
+      NODE_ENV: development
+    ports:
+      - "4000:4000"
+    depends_on:
+      - database
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - todo-list
+    command: npm start
+
+  frontend:
+    build:
+      context: ./todo-crud
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    environment:
+      NODE_ENV: development
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./todo-crud:/app
+      - /app/node_modules
+    networks:
+      - todo-list
+    command: npm start
+
+networks:
+  todo-list:
+    driver: bridge
 
 volumes:
   pgdata:
     driver: local
-
-
