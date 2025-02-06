@@ -14,7 +14,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
-      - todo-list
+      - app_network
 
   backend:
     build:
@@ -33,7 +33,7 @@ services:
       - .:/app
       - /app/node_modules
     networks:
-      - todo-list
+      - app_network
     command: npm start
 
   frontend:
@@ -52,11 +52,11 @@ services:
       - ./todo-crud:/app
       - /app/node_modules
     networks:
-      - todo-list
+      - app_network
     command: npm start
 
 networks:
-  todo-list:
+  app_network:
     driver: bridge
 
 volumes:

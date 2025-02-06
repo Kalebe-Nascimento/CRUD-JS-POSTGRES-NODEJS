@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 5173
 
 # Comando para rodar o frontend
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
