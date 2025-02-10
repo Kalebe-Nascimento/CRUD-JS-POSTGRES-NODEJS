@@ -12,7 +12,8 @@ RUN npm install
 COPY . .
 
 # Expõe a porta do frontend
-EXPOSE 5173
+EXPOSE 3000
 
 # Comando para rodar o frontend
+RUN npm run build
 CMD ["npm", "start"]

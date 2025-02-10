@@ -12,7 +12,8 @@ RUN npm install
 COPY . .
 
 # Expõe a porta do backend
-EXPOSE 4000
+EXPOSE 3030
 
+RUN npx prisma generate
 # Comando para rodar o servidor
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
