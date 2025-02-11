@@ -18,9 +18,7 @@ services:
       - app_network
 
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: kalebenascimento/backend:latest
     container_name: backend
     restart: always
     environment:
@@ -30,17 +28,12 @@ services:
       - "3030:3030"
     depends_on:
       - database
-    volumes:
-      - .:/app
-      - /app/node_modules
     networks:
       - app_network
     command: npm start
 
   frontend:
-    build:
-      context: ./todo-crud
-      dockerfile: Dockerfile
+    image: kalebenascimento/frontend:latest
     container_name: frontend
     restart: always
     environment:
@@ -49,9 +42,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    volumes:
-      - ./todo-crud:/app
-      - /app/node_modules
     networks:
       - app_network
     command: npm start
