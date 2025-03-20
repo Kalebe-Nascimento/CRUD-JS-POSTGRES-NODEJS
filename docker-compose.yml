@@ -2,35 +2,42 @@ version: "3.9"
 name: "kalebe"
 
 services:
-  database:
-    image: postgres
-    container_name: testePostgre
-    restart: always
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Aula*infra
-      POSTGRES_DB: aws-db
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - app_network
+
+  # database:
+  #   image: postgres
+  #   container_name: testePostgre
+  #   restart: always
+  #   ports:
+  #     - "5433:5432"
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: Aula*infra
+  #     POSTGRES_DB: aws-db
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   networks:
+  #     - app_network
 
   backend:
-    image: kalebenascimento/backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: backend
     restart: always
     environment:
-      DATABASE_URL: "postgresql://postgres:Aula*infra@aws-db.c5qqqwoou4u8.us-east-1.rds.amazonaws.com:5432/aws-db"
+      DATABASE_URL: "postgresql://postgres:postgres123@aws-db-novo.c5qqqwoou4u8.us-east-1.rds.amazonaws.com:5432/aws_db_novo"
       NODE_ENV: development
     ports:
       - "3030:3030"
-    depends_on:
-      - database
+    volumes:
+      - .:/app
+      - /app/node_modules
     networks:
       - app_network
+    depends_on:
+      - database
     command: npm start
+
 
   frontend:
     image: kalebenascimento/frontend:latest
