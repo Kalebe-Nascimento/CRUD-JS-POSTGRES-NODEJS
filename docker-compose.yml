@@ -2,6 +2,21 @@ version: "3.9"
 name: "kalebe"
 
 services:
+  database:
+    image: postgres
+    container_name: testePostgre
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Aula*infra
+      POSTGRES_DB: aws-db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - app_network
+
   backend:
     image: kalebenascimento/backend:latest
     container_name: backend
@@ -11,6 +26,8 @@ services:
       NODE_ENV: development
     ports:
       - "3030:3030"
+    depends_on:
+      - database
     networks:
       - app_network
     command: npm start
@@ -33,3 +50,6 @@ networks:
   app_network:
     driver: bridge
 
+volumes:
+  pgdata:
+    driver: local
