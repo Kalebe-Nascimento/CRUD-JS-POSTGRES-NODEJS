@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:Aula*infra@aws-db.c5qqqwoou4u8.us-east-1.rds.amazonaws.com:5432/aws-db"
+  url      = env("DATABASE_URL")
 }
 
 model Todo{
