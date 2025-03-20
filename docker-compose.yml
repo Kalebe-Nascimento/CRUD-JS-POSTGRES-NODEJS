@@ -12,7 +12,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Aula*infra
       POSTGRES_DB: aws-db
-      POSTGRES_HOST: aws-db.c5qqqwoou4u8.us-east-1.rds.amazonaws.com
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
