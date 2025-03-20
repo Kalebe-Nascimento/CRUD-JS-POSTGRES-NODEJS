@@ -9,9 +9,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: Aula*infra
-      POSTGRES_DB: aws-db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: database
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -22,7 +22,7 @@ services:
     container_name: backend
     restart: always
     environment:
-      DATABASE_URL: "postgresql://postgres:Aula*infra@aws-db.c5qqqwoou4u8.us-east-1.rds.amazonaws.com:5432/aws-db"
+      DATABASE_URL: "postgresql://admin:admin@database:5432/database"
       NODE_ENV: development
     ports:
       - "3030:3030"
