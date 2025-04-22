@@ -1,31 +1,27 @@
-# Etapa 1: Build
-FROM node:18 AS builder
+# Etapa 1: build (instala dependências, gera Prisma Client)
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copia apenas os arquivos necessários para instalar dependências
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
-# Copia o restante do projeto
-COPY . .
-
-# Gera os arquivos do Prisma
+COPY prisma ./prisma
 RUN npx prisma generate
 
-# Etapa 2: Produção
-FROM node:18-alpine AS production
+COPY . .
+
+# Etapa 2: imagem final limpa
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Copia apenas os arquivos necessários da etapa de build
+# Copia apenas arquivos necessários da etapa anterior
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/package-lock.json ./
 
-# Expõe a porta
 EXPOSE 3030
-
-# Comando para rodar a aplicação
 CMD ["npm", "run", "start"]
