@@ -3,21 +3,6 @@ name: "kalebe"
 
 services:
 
-  # database:
-  #   image: postgres
-  #   container_name: testePostgre
-  #   restart: always
-  #   ports:
-  #     - "5433:5432"
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: Aula*infra
-  #     POSTGRES_DB: aws-db
-  #   volumes:
-  #     - pgdata:/var/lib/postgresql/data
-  #   networks:
-  #     - app_network
-
   backend:
     build:
       context: .
@@ -25,7 +10,7 @@ services:
     container_name: backend
     restart: always
     environment:
-      DATABASE_URL: "postgresql://postgres:postgres123@aws-db-novo.c5qqqwoou4u8.us-east-1.rds.amazonaws.com:5432/aws_db_novo"
+      DATABASE_URL: "postgresql://postgres:postgres@db-kalebe.c5qqqwoou4u8.us-east-1.rds.amazonaws.com:5432/db_kalebe"
       NODE_ENV: development
     ports:
       - "3030:3030"
@@ -35,7 +20,6 @@ services:
     networks:
       - app_network
     command: npm start
-
 
   frontend:
     image: kalebenascimento/frontend:latest
