@@ -20,5 +20,5 @@ app.get("/", (req, res) => {
 
 
 
-app.listen(3000, '0.0.0.0', () => console.log("Server up in 3000"));
+app.listen(3030, '0.0.0.0', () => console.log("Server up in 3000"));
 
